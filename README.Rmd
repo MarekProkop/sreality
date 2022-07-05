@@ -97,7 +97,8 @@ list_properies("data/my_properties.rds") |>
   select(name, location, price_last) |> 
   gt::gt() |> 
   gt::cols_label(price_last = "price") |> 
-  gt::fmt_number(price_last, decimals = 0, suffixing = "K")
+  gt::fmt_number(price_last, decimals = 0, suffixing = "K") |> 
+  gt::as_raw_html()
 ```
 
 ```{r cleanup, include=FALSE}
