@@ -45,7 +45,7 @@ add_property(
 #> # A tibble: 1 × 8
 #>   id         status checked             location  name   price description url  
 #>   <chr>      <chr>  <dttm>              <chr>     <chr>  <int> <chr>       <chr>
-#> 1 3960968780 init   2022-07-05 23:37:42 náměstí … Prod… 1.30e7 Rodinný dů… http…
+#> 1 3960968780 init   2022-07-05 23:41:23 náměstí … Prod… 1.30e7 Rodinný dů… http…
 ```
 
 Adds multiple properties to the `data/my_properties.rds` file. If any
@@ -63,8 +63,8 @@ add_property(
 #> # A tibble: 2 × 8
 #>   id         status checked             location  name   price description url  
 #>   <chr>      <chr>  <dttm>              <chr>     <chr>  <int> <chr>       <chr>
-#> 1 2752723036 init   2022-07-05 23:37:43 Verneřic… Prod… 5.79e6 Rodinný dů… http…
-#> 2 3936430428 init   2022-07-05 23:37:43 Provazni… Prod… 9.7 e6 Rodinný dů… http…
+#> 1 2752723036 init   2022-07-05 23:41:23 Verneřic… Prod… 5.79e6 Rodinný dů… http…
+#> 2 3936430428 init   2022-07-05 23:41:24 Provazni… Prod… 9.7 e6 Rodinný dů… http…
 ```
 
 ### Update properties
@@ -85,12 +85,12 @@ read_rds("data/my_properties.rds")
 #> # A tibble: 6 × 8
 #>   id         status checked             location  name   price description url  
 #>   <chr>      <chr>  <dttm>              <chr>     <chr>  <dbl> <chr>       <chr>
-#> 1 3960968780 init   2022-07-05 23:37:42 náměstí … Prod… 1.30e7 Rodinný dů… http…
-#> 2 2752723036 init   2022-07-05 23:37:43 Verneřic… Prod… 5.79e6 Rodinný dů… http…
-#> 3 3936430428 init   2022-07-05 23:37:43 Provazni… Prod… 9.7 e6 Rodinný dů… http…
-#> 4 3960968780 live   2022-07-05 23:37:43 náměstí … Prod… 1.30e7 Rodinný dů… <NA> 
-#> 5 2752723036 live   2022-07-05 23:37:44 Verneřic… Prod… 5.79e6 Rodinný dů… <NA> 
-#> 6 3936430428 live   2022-07-05 23:37:44 Provazni… Prod… 9.7 e6 Rodinný dů… <NA>
+#> 1 3960968780 init   2022-07-05 23:41:23 náměstí … Prod… 1.30e7 Rodinný dů… http…
+#> 2 2752723036 init   2022-07-05 23:41:23 Verneřic… Prod… 5.79e6 Rodinný dů… http…
+#> 3 3936430428 init   2022-07-05 23:41:24 Provazni… Prod… 9.7 e6 Rodinný dů… http…
+#> 4 3960968780 live   2022-07-05 23:41:24 náměstí … Prod… 1.30e7 Rodinný dů… <NA> 
+#> 5 2752723036 live   2022-07-05 23:41:25 Verneřic… Prod… 5.79e6 Rodinný dů… <NA> 
+#> 6 3936430428 live   2022-07-05 23:41:25 Provazni… Prod… 9.7 e6 Rodinný dů… <NA>
 ```
 
 #### Current state of properties
@@ -103,18 +103,18 @@ list_properies("data/my_properties.rds")
 #> # A tibble: 3 × 11
 #>   id         status checked_0           checked_last        dur   location name 
 #>   <chr>      <chr>  <dttm>              <dttm>              <drt> <chr>    <chr>
-#> 1 2752723036 live   2022-07-05 23:37:43 2022-07-05 23:37:44 1.03… Verneři… Prod…
-#> 2 3936430428 live   2022-07-05 23:37:43 2022-07-05 23:37:44 1.05… Provazn… Prod…
-#> 3 3960968780 live   2022-07-05 23:37:42 2022-07-05 23:37:43 1.10… náměstí… Prod…
+#> 1 2752723036 live   2022-07-05 23:41:23 2022-07-05 23:41:25 1.08… Verneři… Prod…
+#> 2 3936430428 live   2022-07-05 23:41:24 2022-07-05 23:41:25 1.08… Provazn… Prod…
+#> 3 3960968780 live   2022-07-05 23:41:23 2022-07-05 23:41:24 1.15… náměstí… Prod…
 #> # … with 4 more variables: price_0 <dbl>, price_last <dbl>, description <chr>,
 #> #   url <chr>
 ```
 
-#### List of properties using the {gt} package
-
 You can filter the previous dataframe by status (only valid: `status
 %in% c("init", "live")` or only removed: `status == "gone"`), by price
 change (`price_last != price_0`), etc.
+
+#### List of properties using the {gt} package
 
 ``` r
 list_properies("data/my_properties.rds") |> 
