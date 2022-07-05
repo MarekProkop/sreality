@@ -4,7 +4,7 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -70,9 +70,13 @@ update_properties(rds_path = "data/my_properties.rds")
 
 ### List archived data
 
+#### Full content of the archive
+
 ```{r}
 read_rds("data/my_properties.rds")
 ```
+
+#### Current state of properties
 
 Displays the current state of all properties in the `data/my_properties.rds` file.
 
@@ -80,7 +84,26 @@ Displays the current state of all properties in the `data/my_properties.rds` fil
 list_properies("data/my_properties.rds")
 ```
 
+#### List of properties using the {gt} package
+
 You can filter the previous dataframe by status (only valid: `status %in% c("init", "live")` or only removed: `status == "gone"`), by price change (`price_last != price_0`), etc.
+
+```{r}
+list_properies("data/my_properties.rds") |> 
+  mutate(
+    name = paste0("[", name, "](", url, ")"),
+    name = map(name, gt::md)
+  ) |> 
+  select(name, location, price_last) |> 
+  gt::gt() |> 
+  gt::cols_label(price_last = "price") |> 
+  gt::fmt_number(price_last, decimals = 0, suffixing = "K")
+```
+
+```{r cleanup, include=FALSE}
+file.remove("data/my_properties.rds")
+```
+
 
 ## To-do
 
