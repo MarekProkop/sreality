@@ -37,12 +37,14 @@ source("R/sreality-funcs.R")
 
 ### Add property
 
-Adds the property with the given URL to the `data/my_properties.rds` file. If a property with the given id already exists in the file, an error will occur.
+Adds the property with the given URL to the `data/my_properties.rds` file. If you specify the `img_dir` parameter, a small preview image is downloaded and saved in this folder under the name _id_property.jpg_
+
+If a property with the given id already exists in the file, an error will occur.
 
 ```{r}
 add_property(
   data_path = "data/my_properties.rds",
-  img_dir = "images",
+  img_dir = "images/",
   url = "https://www.sreality.cz/detail/prodej/dum/rodinny/melnik-melnik-namesti-miru/3960968780"
 )
 ```
@@ -52,7 +54,7 @@ Adds multiple properties to the `data/my_properties.rds` file. If any property i
 ```{r}
 add_property(
   data_path = "data/my_properties.rds",
-  img_dir = "images",
+  img_dir = "images/",
   url = c(
     "https://www.sreality.cz/detail/prodej/dum/rodinny/vernerice-rychnov-/2752723036",
     "https://www.sreality.cz/detail/prodej/dum/rodinny/tabor-tabor-provaznicka/3936430428"
@@ -100,6 +102,35 @@ list_properies("data/my_properties.rds") |>
   gt::fmt_number(price_last, decimals = 0, suffixing = "K") |> 
   gt::as_raw_html()
 ```
+
+You can also add images to the listing.
+
+```{r eval=FALSE}
+list_properies("data/my_properties.rds") |> 
+  mutate(
+    title = paste0(location, "\n\n", replace_na(name, "")),
+    title = map(title, gt::md)
+  ) |> 
+  select(id, title, price_last) |>
+  gt::gt() |> 
+  gt::cols_label(price_last = "price") |> 
+  gt::fmt_number(price_last, decimals = 0, suffixing = "K") |> 
+  gt::text_transform(
+    locations = gt::cells_body(columns = id),
+    fn = function(x) {
+      map_chr(x, function(x) {
+        img_path <- here::here("images", paste0(x, ".jpg"))
+        if (file.exists(img_path)) {
+          gt::local_image(filename = img_path, height = 166)
+        } else {
+          x
+        }
+      })
+    }
+  )
+```
+
+![listing preview](scrrenshot-01.png)
 
 ```{r cleanup, include=FALSE}
 file.remove("data/my_properties.rds")

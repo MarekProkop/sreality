@@ -31,21 +31,24 @@ source("R/sreality-funcs.R")
 ### Add property
 
 Adds the property with the given URL to the `data/my_properties.rds`
-file. If a property with the given id already exists in the file, an
-error will occur.
+file. If you specify the `img_dir` parameter, a small preview image is
+downloaded and saved in this folder under the name *id\_property.jpg*
+
+If a property with the given id already exists in the file, an error
+will occur.
 
 ``` r
 add_property(
   data_path = "data/my_properties.rds",
-  img_dir = "images",
+  img_dir = "images/",
   url = "https://www.sreality.cz/detail/prodej/dum/rodinny/melnik-melnik-namesti-miru/3960968780"
 )
 #> Warning in add_property(data_path = "data/my_properties.rds", img_dir =
-#> "images", : File data/my_properties.rdsdoesn't exist. Creating a new one.
+#> "images/", : File data/my_properties.rdsdoesn't exist. Creating a new one.
 #> # A tibble: 1 × 8
 #>   id         status checked             location  name   price description url  
 #>   <chr>      <chr>  <dttm>              <chr>     <chr>  <int> <chr>       <chr>
-#> 1 3960968780 init   2022-07-05 23:41:23 náměstí … Prod… 1.30e7 Rodinný dů… http…
+#> 1 3960968780 init   2022-07-07 09:43:11 náměstí … Prod… 1.30e7 Rodinný dů… http…
 ```
 
 Adds multiple properties to the `data/my_properties.rds` file. If any
@@ -54,7 +57,7 @@ property id already exists in the file, an error will occur.
 ``` r
 add_property(
   data_path = "data/my_properties.rds",
-  img_dir = "images",
+  img_dir = "images/",
   url = c(
     "https://www.sreality.cz/detail/prodej/dum/rodinny/vernerice-rychnov-/2752723036",
     "https://www.sreality.cz/detail/prodej/dum/rodinny/tabor-tabor-provaznicka/3936430428"
@@ -63,8 +66,8 @@ add_property(
 #> # A tibble: 2 × 8
 #>   id         status checked             location  name   price description url  
 #>   <chr>      <chr>  <dttm>              <chr>     <chr>  <int> <chr>       <chr>
-#> 1 2752723036 init   2022-07-05 23:41:23 Verneřic… Prod… 5.79e6 Rodinný dů… http…
-#> 2 3936430428 init   2022-07-05 23:41:24 Provazni… Prod… 9.7 e6 Rodinný dů… http…
+#> 1 2752723036 init   2022-07-07 09:43:11 Verneřic… Prod… 5.79e6 Rodinný dů… http…
+#> 2 3936430428 init   2022-07-07 09:43:12 Provazni… Prod… 9.7 e6 Rodinný dů… http…
 ```
 
 ### Update properties
@@ -85,12 +88,12 @@ read_rds("data/my_properties.rds")
 #> # A tibble: 6 × 8
 #>   id         status checked             location  name   price description url  
 #>   <chr>      <chr>  <dttm>              <chr>     <chr>  <dbl> <chr>       <chr>
-#> 1 3960968780 init   2022-07-05 23:41:23 náměstí … Prod… 1.30e7 Rodinný dů… http…
-#> 2 2752723036 init   2022-07-05 23:41:23 Verneřic… Prod… 5.79e6 Rodinný dů… http…
-#> 3 3936430428 init   2022-07-05 23:41:24 Provazni… Prod… 9.7 e6 Rodinný dů… http…
-#> 4 3960968780 live   2022-07-05 23:41:24 náměstí … Prod… 1.30e7 Rodinný dů… <NA> 
-#> 5 2752723036 live   2022-07-05 23:41:25 Verneřic… Prod… 5.79e6 Rodinný dů… <NA> 
-#> 6 3936430428 live   2022-07-05 23:41:25 Provazni… Prod… 9.7 e6 Rodinný dů… <NA>
+#> 1 3960968780 init   2022-07-07 09:43:11 náměstí … Prod… 1.30e7 Rodinný dů… http…
+#> 2 2752723036 init   2022-07-07 09:43:11 Verneřic… Prod… 5.79e6 Rodinný dů… http…
+#> 3 3936430428 init   2022-07-07 09:43:12 Provazni… Prod… 9.7 e6 Rodinný dů… http…
+#> 4 3960968780 live   2022-07-07 09:43:12 náměstí … Prod… 1.30e7 Rodinný dů… <NA> 
+#> 5 2752723036 live   2022-07-07 09:43:12 Verneřic… Prod… 5.79e6 Rodinný dů… <NA> 
+#> 6 3936430428 live   2022-07-07 09:43:13 Provazni… Prod… 9.7 e6 Rodinný dů… <NA>
 ```
 
 #### Current state of properties
@@ -103,9 +106,9 @@ list_properies("data/my_properties.rds")
 #> # A tibble: 3 × 11
 #>   id         status checked_0           checked_last        dur   location name 
 #>   <chr>      <chr>  <dttm>              <dttm>              <drt> <chr>    <chr>
-#> 1 2752723036 live   2022-07-05 23:41:23 2022-07-05 23:41:25 1.08… Verneři… Prod…
-#> 2 3936430428 live   2022-07-05 23:41:24 2022-07-05 23:41:25 1.08… Provazn… Prod…
-#> 3 3960968780 live   2022-07-05 23:41:23 2022-07-05 23:41:24 1.15… náměstí… Prod…
+#> 1 2752723036 live   2022-07-07 09:43:11 2022-07-07 09:43:12 1.18… Verneři… Prod…
+#> 2 3936430428 live   2022-07-07 09:43:12 2022-07-07 09:43:13 1.07… Provazn… Prod…
+#> 3 3960968780 live   2022-07-07 09:43:11 2022-07-07 09:43:12 1.37… náměstí… Prod…
 #> # … with 4 more variables: price_0 <dbl>, price_last <dbl>, description <chr>,
 #> #   url <chr>
 ```
@@ -152,6 +155,35 @@ list_properies("data/my_properties.rds") |>
   
   
 </table>
+
+You can also add images to the listing.
+
+``` r
+list_properies("data/my_properties.rds") |> 
+  mutate(
+    title = paste0(location, "\n\n", replace_na(name, "")),
+    title = map(title, gt::md)
+  ) |> 
+  select(id, title, price_last) |>
+  gt::gt() |> 
+  gt::cols_label(price_last = "price") |> 
+  gt::fmt_number(price_last, decimals = 0, suffixing = "K") |> 
+  gt::text_transform(
+    locations = gt::cells_body(columns = id),
+    fn = function(x) {
+      map_chr(x, function(x) {
+        img_path <- here::here("images", paste0(x, ".jpg"))
+        if (file.exists(img_path)) {
+          gt::local_image(filename = img_path, height = 166)
+        } else {
+          x
+        }
+      })
+    }
+  )
+```
+
+![listing preview](scrrenshot-01.png)
 
 ## To-do
 

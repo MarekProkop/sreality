@@ -1,4 +1,4 @@
-add_property <- function(data_path, img_dir, url) {
+add_property <- function(data_path, img_dir = NULL, url) {
   if (file.exists(data_path)) {
     properties <- readr::read_rds(data_path)
   } else {
@@ -8,7 +8,7 @@ add_property <- function(data_path, img_dir, url) {
   id = id_from_url(url)
   stopifnot("Id already exists." = !(id %in% properties$id))
   new_properties <- id |>
-    purrr::map_dfr(fetch_prop_info) |>
+    purrr::map_dfr(fetch_prop_info, img_dir = img_dir) |>
     dplyr::mutate(status = "init", url = url)
   properties |>
     dplyr::bind_rows(new_properties) |>
@@ -67,7 +67,7 @@ create_archive <- function(data_path) {
   )
 }
 
-fetch_prop_info <- function(prop_id) {
+fetch_prop_info <- function(prop_id, img_dir = NULL) {
   base_url <- "https://www.sreality.cz/api/cs/v2/estates/"
   resp <- httr::GET(paste0(base_url, prop_id))
   if (httr::http_error(resp)) {
@@ -82,6 +82,10 @@ fetch_prop_info <- function(prop_id) {
     }
   } else {
     json <- jsonlite::fromJSON(httr::content(resp, as = "text", encoding = "utf-8"))
+    if (!is.null(img_dir)) {
+      json[["_embedded"]][["images"]][["_links"]][["gallery"]][["href"]][1] |>
+        download.file(destfile = paste0(img_dir, prop_id, ".jpg"), mode = "wb")
+    }
     list(
       id = prop_id,
       status = "live",
